@@ -25,9 +25,9 @@ net = love(100,100)
 #loss
 loss_func = torch.nn.MSELoss()
 #optimiter
-optimiter = torch.optim.SGD(net.parameters(),lr = 0.1)
+optimiter = torch.optim.SGD(net.parameters(),lr = 0.01)
 #train
-for i in range(1000):
+for i in range(1300):
     pred = net.forward(x)
     loss = loss_func(pred,y)
 
@@ -35,6 +35,11 @@ for i in range(1000):
     loss.backward()
     optimiter.step()
     print('pred:{},loss:{}'.format(pred,loss))
+    if i%100 == 0:
+        plt.plot(x,pred.detach().numpy(),'r-')
+        plt.plot(x,y,'x')
+        plt.savefig('{}epochFile'.format(i))
+        plt.show()
 #test
 plt.plot(x,pred.detach().numpy(),'r-')
 plt.plot(x,y,'x')
